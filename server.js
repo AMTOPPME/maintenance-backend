@@ -1,12 +1,15 @@
 // server.js
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors');   // ✅ 只要宣告一次
 const db = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000; // Render / Railway 會塞 PORT
 
+// ✅ 開啟 CORS，讓瀏覽器 (file:// 或 https://) 都可以呼叫
 app.use(cors());
+
+// 解析 JSON body
 app.use(express.json());
 
 // 健康檢查
@@ -48,7 +51,7 @@ app.post('/logs', (req, res) => {
   );
 });
 
-// 取得全部 logs（之後你可以加 filter）
+// 取得全部 logs
 app.get('/logs', (req, res) => {
   const sql = `SELECT * FROM maintenance_logs ORDER BY id DESC`;
   db.all(sql, [], (err, rows) => {
